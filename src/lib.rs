@@ -82,24 +82,18 @@ fn parse_markdown(buffered: BufReader<File>) -> Result<(String, String), Error> 
     Ok((metadata, md))
 }
 
-fn markdown_to_html(path: &PathBuf) -> Result<String, Error> {
-    let file = File::open(path)?;
-    let md = BufReader::new(file);
-
-    let (meta_toml, md) = parse_markdown(md)?;
-    let meta = Metadata::new(&meta_toml)?;
-
-    Ok(meta.og_title) // Placeholder
-}
-
 // Runs the show
 pub fn run(post_dir: &OsString, template_dir: &OsString, dist_dir: &OsString) -> io::Result<()> {
-  for entry in read_dir(post_dir)? {
-      let path = entry?.path();
-      if path.extension().unwrap().to_str() == Some("md") {
-          let html = markdown_to_html(&path)?;
-      }
-  }
+    for entry in read_dir(post_dir)? {
+        let path = entry?.path();
+        if path.extension().unwrap().to_str() == Some("md") {
+            let file = File::open(path)?;
+            let md = BufReader::new(file);
 
-  Ok(())
+            let (meta_toml, md) = parse_markdown(md)?;
+            let meta = Metadata::new(&meta_toml)?;
+        }
+    }
+
+    Ok(())
 }

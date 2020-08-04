@@ -8,5 +8,6 @@ fn main() {
     let template_dir: OsString = OsString::from("./templates/");
     let dist_dir: OsString = OsString::from("./dist/");
 
+    // TODO: Error handling!
     run(&post_dir, &template_dir, &dist_dir);
 }
