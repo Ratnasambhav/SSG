@@ -1,3 +1,6 @@
+use SSG::parse_metadata;
+
 fn main() {
-    println!("Hello, world!");
+    let metadata = parse_metadata("posts/test.md");
+    print!("{}", metadata.unwrap());
 }
