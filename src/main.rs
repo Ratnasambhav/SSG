@@ -1,6 +1,8 @@
-use ssg::parse_metadata;
+use ssg::{Metadata, get_metadata};
 
 fn main() {
-    let metadata = parse_metadata("posts/test.md");
-    print!("{}", metadata.unwrap());
+    let metadata = get_metadata("posts/test.md").unwrap();
+
+    let meta = Metadata::new(&metadata).unwrap();
+    println!("{:?}", meta);
 }
