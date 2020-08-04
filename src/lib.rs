@@ -3,6 +3,7 @@ use std::fs::{read_dir, DirEntry, File};
 use std::io::{self, BufRead, BufReader, Error};
 use std::path::PathBuf;
 
+use pulldown_cmark::{html, Options, Parser};
 use toml::Value;
 
 #[derive(Debug)]
@@ -82,8 +83,19 @@ fn parse_markdown(buffered: BufReader<File>) -> Result<(String, String), Error> 
     Ok((metadata, md))
 }
 
+fn markdown_to_html(md: &str, options: Options) -> String {
+    let parser = Parser::new_ext(md, options);
+    let mut html_output = String::new();
+    html::push_html(&mut html_output, parser);
+
+    html_output
+}
+
 // Runs the show
 pub fn run(post_dir: &OsString, template_dir: &OsString, dist_dir: &OsString) -> io::Result<()> {
+    let mut options = Options::empty();
+    options.insert(Options::ENABLE_STRIKETHROUGH);
+
     for entry in read_dir(post_dir)? {
         let path = entry?.path();
         if path.extension().unwrap().to_str() == Some("md") {
@@ -92,6 +104,8 @@ pub fn run(post_dir: &OsString, template_dir: &OsString, dist_dir: &OsString) ->
 
             let (meta_toml, md) = parse_markdown(md)?;
             let meta = Metadata::new(&meta_toml)?;
+            let html = markdown_to_html(&md, options);
+            println!("{}", html);
         }
     }
 

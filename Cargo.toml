@@ -8,3 +8,4 @@ edition = "2018"
 
 [dependencies]
 toml = "0.5.6"
+pulldown-cmark = { version = "0.7", default-features = false }
