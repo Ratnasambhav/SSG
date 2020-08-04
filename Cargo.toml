@@ -1,5 +1,5 @@
 [package]
-name = "SSG"
+name = "ssg"
 version = "0.1.0"
 authors = ["Ratnasambhav Priyadarshi <ratnasambhav@gmail.com>"]
 edition = "2018"
