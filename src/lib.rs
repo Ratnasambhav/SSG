@@ -32,7 +32,7 @@ pub struct Metadata {
 }
 
 impl Metadata {
-    pub fn new(metadata_string: &str) -> Result<Metadata, toml::de::Error> {
+    fn new(metadata_string: &str) -> Result<Metadata, toml::de::Error> {
         let toml: Value = toml::from_str(metadata_string)?;
         let toml_to_string = |value: &toml::value::Value| String::from(value.as_str().unwrap());
 
@@ -52,6 +52,24 @@ impl Metadata {
             twitter_title: toml_to_string(&toml["meta"]["twitter_title"]),
             twitter_description: toml_to_string(&toml["meta"]["twitter_description"]),
         })
+    }
+
+    fn genrate_head_tags(&self) -> String {
+        format!(
+            "<title>{}</title>\n<meta name=\"description\" content=\"{}\">\n<meta name=\"keywords\" content=\"{}\">\n<meta name=\"og:url\" content=\"{}\">\n<meta name=\"og:type\" content=\"{}\">\n<meta name=\"og:title\" content=\"{}\">\n<meta name=\"og:image\" content=\"{}\">\n<meta name=\"og:description\" content=\"{}\">\n<meta name=\"twitter:card\" content=\"{}\">\n<meta name=\"twitter:image\" content=\"{}\">\n<meta name=\"twitter:title\" content=\"{}\">\n<meta name=\"twitter:description\" content=\"{}\">",
+            self.title,
+            self.description,
+            self.keywords,
+            self.og_url,
+            self.og_type,
+            self.og_title,
+            self.og_image,
+            self.og_description,
+            self.twitter_card,
+            self.twitter_image,
+            self.twitter_title,
+            self.twitter_description,
+        )
     }
 }
 
@@ -104,8 +122,8 @@ pub fn run(post_dir: &OsString, template_dir: &OsString, dist_dir: &OsString) ->
 
             let (meta_toml, md) = parse_markdown(md)?;
             let meta = Metadata::new(&meta_toml)?;
+            let meta_tags = meta.genrate_head_tags();
             let html = markdown_to_html(&md, options);
-            println!("{}", html);
         }
     }
 
