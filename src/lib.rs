@@ -108,10 +108,33 @@ fn markdown_to_html(md: &str, options: Options) -> String {
     html_output
 }
 
+// Generate a list of posts in HTML
+fn generate_post_list_html(metadata_list: &Vec<Metadata>) -> String {
+    metadata_list
+        .iter()
+        .fold(String::new(), |post_list_html, metadata| {
+            let post_url = metadata.og_url.replace(
+                "https://ratnasambhav.github.io/",
+                ""
+            );
+            format!(
+                "{}<div>\n<a href={} title={}>\n<h2>{}</h2>\n</a>\n<h3>{}</h3>\n<span>{}</span>\n</div>\n",
+                post_list_html,
+                post_url,
+                metadata.title,
+                metadata.title,
+                metadata.description,
+                metadata.published
+            )
+        })
+}
+
 // Runs the show
 pub fn run(post_dir: &OsString, template_dir: &OsString, dist_dir: &OsString) -> io::Result<()> {
     let mut options = Options::empty();
     options.insert(Options::ENABLE_STRIKETHROUGH);
+
+    let mut metadata_list: Vec<Metadata> = Vec::new();
 
     for entry in read_dir(post_dir)? {
         let path = entry?.path();
@@ -122,9 +145,12 @@ pub fn run(post_dir: &OsString, template_dir: &OsString, dist_dir: &OsString) ->
             let (meta_toml, md) = parse_markdown(md)?;
             let meta = Metadata::new(&meta_toml)?;
             let meta_tags = meta.genrate_head_tags();
+            metadata_list.push(meta);
             let html = markdown_to_html(&md, options);
         }
     }
+    let post_list_html = generate_post_list_html(&metadata_list);
+    println!("{}", post_list_html);
 
     Ok(())
 }

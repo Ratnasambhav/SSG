@@ -1,5 +1,5 @@
 +++
-title = "Test"
+title = "Test 2"
 published = "August 4th, 2020"
 last_update = "August 4th, 2020"
 
@@ -8,7 +8,7 @@ description = "A markdown file for tests during development."
 keywords = "markdown, html, rust, static site generator"
 og_title = "Test"
 og_type = "article"
-og_url = "https://ratnasambhav.github.io/Test"
+og_url = "https://ratnasambhav.github.io/test_2"
 og_description = "A markdown file for tests during development."
 og_image = "https://ratnasambhav.github.io/icons/icon-512x512.png"
 twitter_title = "Test"
