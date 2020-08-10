@@ -1,6 +1,7 @@
 use std::ffi::OsString;
 use std::fs::{read_dir, File};
 use std::io::{self, BufRead, BufReader, Error};
+use std::path::{Path, PathBuf};
 
 use pulldown_cmark::{html, Options, Parser};
 use toml::Value;
@@ -113,12 +114,11 @@ fn generate_post_list_html(metadata_list: &Vec<Metadata>) -> String {
     metadata_list
         .iter()
         .fold(String::new(), |post_list_html, metadata| {
-            let post_url = metadata.og_url.replace(
-                "https://ratnasambhav.github.io/",
-                ""
-            );
+            let post_url = metadata
+                .og_url
+                .replace("https://ratnasambhav.github.io/", "");
             format!(
-                "{}<div>\n<a href={} title={}>\n<h2>{}</h2>\n</a>\n<h3>{}</h3>\n<span>{}</span>\n</div>\n",
+                "{}<div><a href={} title={}><h2>{}</h2><h3>{}</h3></a><span>{}</span></div>",
                 post_list_html,
                 post_url,
                 metadata.title,
@@ -129,8 +129,38 @@ fn generate_post_list_html(metadata_list: &Vec<Metadata>) -> String {
         })
 }
 
+fn create_index_html(
+    buffered: BufReader<File>,
+    post_list_html: &String,
+    dist_dir: &Path,
+) -> io::Result<()> {
+    use std::io::prelude::*;
+
+    let mut html = String::new();
+
+    for line in buffered.lines() {
+        // Remove whitespaces
+        let line = line?;
+        match line.find("{{POST_LIST}}") {
+            Some(_) => html = format!("{}{}", html, post_list_html),
+            None => html = format!("{}{}", html, line.trim()),
+        }
+    }
+
+    let path = dist_dir.join("index.html");
+    let mut file = File::create(path)?;
+    file.write(html.as_bytes())?;
+
+    Ok(())
+}
+
 // Runs the show
-pub fn run(post_dir: &OsString, template_dir: &OsString, dist_dir: &OsString) -> io::Result<()> {
+pub fn run(
+    post_dir: &OsString,
+    index_html_path: &OsString,
+    post_html_path: &OsString,
+    dist_dir: &Path,
+) -> io::Result<()> {
     let mut options = Options::empty();
     options.insert(Options::ENABLE_STRIKETHROUGH);
 
@@ -147,10 +177,17 @@ pub fn run(post_dir: &OsString, template_dir: &OsString, dist_dir: &OsString) ->
             let meta_tags = meta.genrate_head_tags();
             metadata_list.push(meta);
             let html = markdown_to_html(&md, options);
+
+            // TODO: Create html file for post
         }
     }
+
     let post_list_html = generate_post_list_html(&metadata_list);
-    println!("{}", post_list_html);
+
+    // Read template for index.html
+    let index_template_file = File::open(index_html_path)?;
+    let index_template_buffer = BufReader::new(index_template_file);
+    create_index_html(index_template_buffer, &post_list_html, dist_dir)?;
 
     Ok(())
 }

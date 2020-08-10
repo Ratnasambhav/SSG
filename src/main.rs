@@ -1,11 +1,16 @@
 use ssg::run;
+use std::path::Path;
 use std::ffi::OsString;
 
 fn main() {
-    let post_dir: OsString = OsString::from("./posts/");
-    let template_dir: OsString = OsString::from("./templates/");
-    let dist_dir: OsString = OsString::from("./dist/");
+    let post_dir = OsString::from("./posts/");
+    let index_html_path = OsString::from("./templates/index.html");
+    let post_html_path = OsString::from("./templates/post.html");
+    let dist_dir = Path::new("./dist/");
 
     // TODO: Error handling!
-    run(&post_dir, &template_dir, &dist_dir);
+    match run(&post_dir, &index_html_path, &post_html_path, &dist_dir) {
+        Ok(()) => println!("Success"),
+        Err(e) => eprintln!("ERROR: {}", e)
+    }
 }
