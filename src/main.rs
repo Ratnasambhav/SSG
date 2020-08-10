@@ -1,7 +1,5 @@
-use ssg::{run, Metadata};
+use ssg::run;
 use std::ffi::OsString;
-use std::fs::{read_dir, DirEntry};
-use std::io;
 
 fn main() {
     let post_dir: OsString = OsString::from("./posts/");
