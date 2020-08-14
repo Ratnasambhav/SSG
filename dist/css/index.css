@@ -32,7 +32,7 @@
 body {
   background: #ececec;
   font-family: "Maison Neue";
-  font-size: 12px;
+  font-size: 14px;
 }
 
 a {
@@ -55,7 +55,7 @@ a:hover {
 .nav {
   display: flex;
   justify-content: space-between;
-  font-size: 1.5em;
+  font-size: 1.3em;
   padding-bottom: 20px;
   border-bottom: 1px solid #d3d3d3;
   font-family: "Maison Neue Light";

@@ -1,20 +1,10 @@
 +++
-title = "Test"
-published = "August 4th, 2020"
-last_update = "August 4th, 2020"
+title = "Test 2"
+date = "August 4th, 2020"
 
 [meta]
 description = "A markdown file for tests during development."
 keywords = "markdown, html, rust, static site generator"
-og_title = "Test 2"
-og_type = "article"
-og_url = "https://ratnasambhav.github.io/test"
-og_description = "A markdown file for tests during development."
-og_image = "https://ratnasambhav.github.io/icons/icon-512x512.png"
-twitter_title = "Test"
-twitter_card = "summary_large_image"
-twitter_description = "A markdown file for tests during development."
-twitter_image = "https://ratnasambhav.github.io/icons/icon-512x512.png"
 +++
 
 # Test
