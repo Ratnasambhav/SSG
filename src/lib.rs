@@ -1,7 +1,7 @@
 use std::ffi::OsString;
 use std::fs::{read_dir, File};
 use std::io::{self, BufRead, BufReader, Error};
-use std::path::{Path, PathBuf};
+use std::path::Path;
 
 use pulldown_cmark::{html, Options, Parser};
 use toml::Value;

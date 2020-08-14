@@ -1,0 +1,124 @@
+@font-face {
+  font-family:"Maison Neue Light";
+  src: url('/fonts/MaisonNeue-Light.woff') format('woff');
+}
+
+@font-face {
+  font-family:"Maison Neue";
+  src: url('/fonts/MaisonNeue-Book.woff') format('woff');
+  unicode-range: U+0000-007A;
+}
+
+@font-face {
+  font-family:"Maison Neue Demi";
+  src: url('/fonts/MaisonNeue-Demi.woff') format('woff');
+}
+
+@font-face {
+  font-family:"Maison Neue Bold";
+  src: url('/fonts/MaisonNeue-Bold.woff') format('woff');
+}
+
+@font-face {
+  font-family:"Maison Neue Black";
+  src: url('/fonts/MaisonNeue-Black.woff') format('woff');
+}
+
+@font-face {
+  font-family:"Maison Mono";
+  src: url('/fonts/MaisonMono-Regular.woff') format('woff');
+}
+
+body {
+  background: #ececec;
+  font-family: "Maison Neue";
+  font-size: 12px;
+}
+
+a {
+  color: #000;
+  text-decoration: none;
+  transition: box-shadow 250ms, color 250ms;
+}
+
+a:hover {
+  -webkit-box-shadow: 0px 3px 0px 0px #3700ff;
+  -moz-box-shadow: 0px 3px 0px 0px #3700ff;
+  box-shadow: 0px 3px 0px 0px #3700ff;
+  color: #3700ff;
+}
+
+.page {
+  margin: 20px;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.5em;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #d3d3d3;
+  font-family: "Maison Neue Light";
+}
+
+.nav--link {
+  color: #000;
+  text-decoration: none;
+}
+
+.nav div span {
+  margin: 0 20px;
+  color: #d3d3d3;
+}
+
+.nav--logo {
+  color: #000;
+  text-decoration: none;
+  font-family: "Maison Neue Demi";
+}
+
+.nav--logo::before {
+  content: "// ";
+  color: #d3d3d3;
+}
+
+@media only screen and (max-width: 400px) {
+  .nav {
+    flex-direction: column-reverse;
+  }
+
+  .nav--logo {
+    margin-bottom: 10px;
+  }
+
+  .nav span {
+    margin: 0 30px;
+  }
+}
+
+.posts {
+  margin: 40px auto;
+  max-width: 720px;
+}
+
+.posts h1 {
+  font-family: "Maison Neue Demi";
+  margin-bottom: 40px;
+}
+
+.posts div {
+  margin: 20px 0;
+}
+
+.posts h2 {
+  font-family: "Maison Neue";
+}
+
+.posts h3 {
+  font-family: "Maison Neue Light";
+}
+
+.posts span {
+  font-family: "Maison Mono";
+  color: #6a6a6a;
+}

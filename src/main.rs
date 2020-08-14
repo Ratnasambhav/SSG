@@ -1,6 +1,6 @@
 use ssg::run;
-use std::path::Path;
 use std::ffi::OsString;
+use std::path::Path;
 
 fn main() {
     let post_dir = OsString::from("./posts/");
@@ -11,6 +11,6 @@ fn main() {
     // TODO: Error handling!
     match run(&post_dir, &index_html_path, &post_html_path, &dist_dir) {
         Ok(()) => println!("Success"),
-        Err(e) => eprintln!("ERROR: {}", e)
+        Err(e) => eprintln!("ERROR: {}", e),
     }
 }
